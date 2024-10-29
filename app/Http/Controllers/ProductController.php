@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Category;
-use App\Models\Brand;
 
 class ProductController extends Controller
 {
@@ -15,6 +15,7 @@ class ProductController extends Controller
     {
         $categories = Category::all();
         $brands = Brand::all();
+
         return view('admin.add-product', compact('categories', 'brands'));
     }
 
@@ -25,64 +26,64 @@ class ProductController extends Controller
 
         // Apply search if exists
         if ($request->has('search') && $request->search !== '') {
-            $query->where('name', 'LIKE', '%' . $request->search . '%');
+            $query->where('name', 'LIKE', '%'.$request->search.'%');
         }
 
         $products = $query->get(); // Get all products
+
         return view('admin.products', compact('products'));
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'slug' => 'required|string|unique:products,slug|max:255',
-        'category_id' => 'required|exists:categories,id',
-        'brand_id' => 'required|exists:brands,id',
-        'regular_price' => 'required|numeric',
-        'sale_price' => 'nullable|numeric',
-        'sku' => 'required|string|max:100',
-        'quantity' => 'required|integer',
-        'in_stock' => 'boolean',
-        'featured' => 'boolean',
-        'product_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-    ]);
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|unique:products,slug|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'brand_id' => 'required|exists:brands,id',
+            'regular_price' => 'required|numeric',
+            'sale_price' => 'nullable|numeric',
+            'sku' => 'required|string|max:100',
+            'quantity' => 'required|integer',
+            'in_stock' => 'boolean',
+            'featured' => 'boolean',
+            'product_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
 
-    $product = new Product();
-    $product->name = $request->name;
-    $product->slug = $request->slug;
-    $product->category_id = $request->category_id;
-    $product->brand_id = $request->brand_id;
-    $product->regular_price = $request->regular_price;
-    $product->sale_price = $request->sale_price;
-    $product->sku = $request->sku;
-    $product->quantity = $request->quantity;
-    $product->in_stock = $request->in_stock;
-    $product->featured = $request->featured;
-
-    // Handle image upload
-    if ($request->hasFile('product_image')) {
-        $filename = time() . '_' . uniqid() . '.' . $request->file('product_image')->getClientOriginalExtension();
-        $path = $request->file('product_image')->storeAs('public/products', $filename); // Store in 'public/products'
-        $product->image = 'products/' . $filename; // Store only relative path
-    }
-
-    // Handle gallery images
-    if ($request->hasFile('gallery_images')) {
-        $gallery = [];
-        foreach ($request->file('gallery_images') as $file) {
-            $galleryFilename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('public/products', $galleryFilename); // Store in 'public/products'
-            $gallery[] = 'products/' . $galleryFilename; // Store only relative path
+        $product = new Product;
+        $product->name = $request->name;
+        $product->slug = $request->slug;
+        $product->category_id = $request->category_id;
+        $product->brand_id = $request->brand_id;
+        $product->regular_price = $request->regular_price;
+        $product->sale_price = $request->sale_price;
+        $product->sku = $request->sku;
+        $product->quantity = $request->quantity;
+        $product->in_stock = $request->in_stock;
+        $product->featured = $request->featured;
+        if ($request->hasFile('product_image')) {
+            $filename = time().'_'.uniqid().'.'.$request->file('product_image')->getClientOriginalExtension();
+            $destinationPath = public_path('assets/images/uploads'); // Specify destination
+            $request->file('product_image')->move($destinationPath, $filename); // Move the file
+            $product->image = 'assets/images/uploads/'.$filename; // Store only relative path
         }
-        $product->gallery_images = json_encode($gallery);
+
+        // Handle gallery images
+        if ($request->hasFile('gallery_images')) {
+            $gallery = [];
+            $destinationPath = public_path('assets/images/uploads'); // Specify destination
+            foreach ($request->file('gallery_images') as $file) {
+                $galleryFilename = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
+                $file->move($destinationPath, $galleryFilename); // Move the file
+                $gallery[] = 'assets/images/uploads/'.$galleryFilename; // Store only relative path
+            }
+            $product->gallery_images = json_encode($gallery);
+        }
+        $product->save();
+
+        return redirect()->route('admin.products.index')->with('status', 'Product added successfully!');
     }
-
-    $product->save();
-
-    return redirect()->route('admin.products.index')->with('status', 'Product added successfully!');
-}
 
     // Show the form for editing a product
     public function edit($id)
@@ -100,7 +101,7 @@ class ProductController extends Controller
         // Validate the request data
         $request->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:products,slug,' . $id,
+            'slug' => 'required|string|max:255|unique:products,slug,'.$id,
             'category_id' => 'required|exists:categories,id',
             'brand_id' => 'required|exists:brands,id',
             'regular_price' => 'required|numeric',
@@ -126,18 +127,21 @@ class ProductController extends Controller
         $product->in_stock = $request->in_stock;
         $product->featured = $request->featured;
 
-        // Handle image upload if provided
         if ($request->hasFile('product_image')) {
-            // Delete old image if exists
+            // Delete old image if it exists
             if ($product->image) {
-                Storage::delete('public/' . $product->image);
+                $oldImagePath = public_path('assets/images/uploads/'.$product->image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath); // Delete the file
+                }
             }
-            // Store new image
-            $filename = time() . '_' . uniqid() . '.' . $request->file('product_image')->getClientOriginalExtension();
-            $path = $request->file('product_image')->storeAs('public', $filename);
-            $product->image = $filename;
-        }
 
+            // Store new image
+            $filename = time().'_'.uniqid().'.'.$request->file('product_image')->getClientOriginalExtension();
+            $destinationPath = public_path('assets/images/uploads'); // Specify destination path
+            $request->file('product_image')->move($destinationPath, $filename); // Move the file
+            $product->image = 'assets/images/uploads/'.$filename; // Store only relative path
+        }
         $product->save(); // Save the updated product
 
         return redirect()->route('admin.products.index')->with('status', 'Product updated successfully!'); // Redirect back with a success message
@@ -150,17 +154,18 @@ class ProductController extends Controller
 
         // Optionally delete the image and gallery images from storage
         if ($product->image) {
-            Storage::delete('public/' . $product->image);
+            Storage::delete('public/'.$product->image);
         }
 
         $oldGalleryImages = json_decode($product->gallery_images);
         if ($oldGalleryImages) {
             foreach ($oldGalleryImages as $oldImage) {
-                Storage::delete('public/' . $oldImage);
+                Storage::delete('public/'.$oldImage);
             }
         }
 
         $product->delete();
+
         return redirect()->route('admin.products.index')->with('status', 'Product deleted successfully!');
     }
 }
