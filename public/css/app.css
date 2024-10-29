@@ -1,0 +1,142 @@
+/* Styles for the login and register forms */
+.login-container, .register-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-label {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.form-control {
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+}
+
+.login-btn, .register-btn {
+    margin-top: 10px;
+    background-color: #743df3;
+    color: #fff;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+.login-btn:hover, .register-btn:hover {
+    background-color: #0056b3;
+}
+
+.text-center a {
+    font-size: 0.9rem;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.text-center a:hover {
+    text-decoration: underline;
+}
+
+.alert {
+    margin-top: 10px;
+}
+
+.alert ul {
+    margin-bottom: 0;
+    padding-left: 20px;
+}
+
+/* public/css/app.css */
+
+.sidebar {
+    height: 100vh;
+    padding-top: 20px;
+}
+
+.sidebar .nav-link.active {
+    font-weight: bold;
+    color: #007bff;
+}
+
+
+/* Custom style for sidebar links */
+/* Default color for main menu links */
+.nav-link.sidebar-link {
+    color: rgb(92, 89, 89) !important; /* Force text to be black */
+    font-weight: bold; /* Optional: Makes text bold for better visibility */
+}
+
+/* Default color for icons */
+.nav-link.sidebar-link i {
+    color: rgb(77, 76, 76) !important; /* Force icons to be a specific color */
+}
+
+/* Hover effect for main menu links (text and icons) */
+.nav-link.sidebar-link:hover {
+    color: #7970f5 !important; /* Change text color on hover */
+}
+
+.nav-link.sidebar-link:hover i {
+    color: #7970f5 !important; /* Change icon color on hover */
+}
+
+/* Sidebar heading styling */
+.sidebar-heading {
+    margin-top: 30px;
+    margin-bottom: 40px;
+    color: #007bff;
+}
+
+.card-title{
+    font-size: smaller;
+
+}
+
+.card-monthly{
+    color: #0c0c0c;
+    font-weight: bold;
+}
+
+.card{
+    color: #0056b3;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.upload-area:hover {
+    border-color: blue;
+    background-color: #f3f9fc;
+    cursor: pointer;
+}
+
+.upload-area {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-custom {
+    background-color: lightgray; /* Light gray background */
+    color: black; /* Text color */
+    border: 1px solid black; /* Border color */
+    font-size: 0.8rem; /* Font size */
+    padding: 5px 10px; /* Padding */
+}
+
+
+        
