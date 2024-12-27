@@ -140,3 +140,328 @@ h2 {
 
 
         
+
+
+
+@media (max-width: 768px) {
+    table.table {
+        font-size: 12px; /* Adjust font size for better readability on smaller screens */
+    }
+
+    table.table thead {
+        display: none; /* Hide the table header on small screens */
+    }
+
+    table.table tbody tr {
+        display: block; /* Make rows block-level elements */
+        margin-bottom: 10px; /* Add spacing between rows */
+        border: 1px solid #ddd; /* Add border for clarity */
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    table.table tbody tr td {
+        display: flex; /* Use flexbox for field alignment */
+        justify-content: space-between; /* Space between field name and value */
+        margin-bottom: 5px; /* Spacing between fields */
+        border: none; /* Remove default table borders */
+        padding: 5px 0;
+    }
+
+    table.table tbody tr td::before {
+        content: attr(data-label); /* Use the `data-label` attribute to show field names */
+        font-weight: bold;
+        flex-shrink: 0;
+        margin-right: 10px;
+    }
+
+    .btn-group {
+        display: flex;
+        justify-content: flex-end; /* Align action buttons at the end */
+    }
+
+
+
+
+        table.table {
+            font-size: 12px;
+        }
+    
+        table.table thead {
+            display: none;
+        }
+    
+        table.table tbody tr {
+            display: block;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+        }
+    
+        table.table tbody tr td {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            border: none;
+            padding: 5px 0;
+        }
+    
+        table.table tbody tr td::before {
+            content: attr(data-label);
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-right: 10px;
+        }
+    
+        .btn-group {
+            display: flex;
+            justify-content: flex-end;
+        }
+    
+        /* Aligning Add New and Search Bar Responsively */
+        .row .col-md-8, .row .col-md-4 {
+            margin-bottom: 10px;
+        }
+    
+        .col-md-4.text-md-right.text-sm-left {
+            text-align: left !important;
+        }
+    
+    
+
+    header {
+        flex-direction: column; /* Stack items vertically for small screens */
+    }
+
+    .search-bar {
+        width: 100%; /* Full width on smaller screens */
+        margin-bottom: 10px; /* Add some spacing between elements */
+    }
+
+    .input-group {
+        width: 100%; /* Ensure the search bar is full width */
+    }
+}
+
+@media (max-width: 768px) {
+    .container-fluid {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .form-group.row {
+        flex-direction: column;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .form-group.row label {
+        font-weight: bold;
+        color: black;
+        margin-bottom: 5px;
+    }
+
+    .form-group.row .col-sm-9 {
+        width: 100%;
+    }
+
+    .form-control {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .breadcrumb {
+        font-size: 14px;
+    }
+
+    .card {
+        padding: 10px;
+    }
+
+    .btn-primary {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+        text-align: left;
+    }
+
+    .breadcrumb-item a {
+        font-size: 14px;
+    }
+
+    .breadcrumb-item.active {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 576px) {
+    /* For the search bar and add new button */
+    .input-group {
+        width: 100%;
+    }
+
+    .form-inline {
+        flex-direction: column;
+    }
+
+    /* Button Alignment - Stack vertically on small screens */
+    .btn-outline-primary {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* Keep 'Add New' button aligned at the right end on larger screens */
+    .ml-auto {
+        margin-left: auto !important;
+    }
+}
+
+
+@media (max-width: 576px) {
+    /* Adjust header and breadcrumb spacing */
+    .breadcrumb {
+        font-size: 0.9rem;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    /* Search Bar and Button Alignment */
+    .form-inline {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-inline .input-group {
+        width: 100%;
+    }
+
+    .btn-outline-primary {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* Table Responsiveness */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    /* Image in Table */
+    .img-fluid {
+        max-width: 40px;
+        max-height: 40px;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Adjust header and breadcrumb spacing */
+    .breadcrumb {
+        font-size: 0.9rem;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    /* Search Bar and Button Alignment */
+    .form-inline {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-inline .input-group {
+        width: 100%;
+    }
+
+    .btn-outline-primary {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* Table Responsiveness */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    /* Brand Images in Table */
+    .img-fluid {
+        max-width: 60px;
+        max-height: 60px;
+    }
+}
+@media (max-width: 768px) {
+    /* Adjust the table for mobile */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    /* Adjust search bar and add button for mobile */
+    .d-flex {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .form-control {
+        width: 100%;
+        margin-bottom: 10px; /* Add some spacing between search and button */
+    }
+
+    .btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .btn-outline-primary {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* Adjust table content for mobile */
+    .table th, .table td {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    .table td img {
+        width: 60px;
+        height: 60px;
+    }
+
+    /* Add mobile-friendly image handling */
+    .table td {
+        display: flex;
+        align-items: center;
+    }
+
+    .table td img {
+        margin-right: 10px;
+    }
+
+    /* Adjust the title size */
+    h2 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+
+    /* Adjust actions column on mobile */
+    .table td .text-warning,
+    .table td .text-danger {
+        font-size: 1.2rem;
+    }
+
+    .table td a {
+        margin-right: 10px;
+    }
+}
+

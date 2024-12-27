@@ -3,61 +3,107 @@
 namespace App\Http\Controllers;
 
 use App\Models\Login;
-use App\Models\Register;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 class LoginController extends Controller
 {
-    // Show the login form
     public function showLoginForm()
     {
-        return view('login'); // Return the 'login.blade.php' view
+        return view('login'); 
     }
 
-    // Handle login logic
     public function login(Request $request)
     {
-        // Validate the login form inputs
+        // Validate input
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        // Check if the email exists in the "registers" table
-        $user = Register::where('email', $request->email)->first();
-
-        // Check if the user is admin and verify the password
-        if ($user && Hash::check($request->password, $user->password)) {
-            // If credentials match and user is the admin, store the login record
-            if ($request->email === 'admin@surfsidemedia.in') {
-                Login::create([
-                    'email' => $request->email,
-                    'logged_in_at' => now(),
+        // Special handling for admin
+        if ($request->email === 'admin@surfsidemedia.in' && $request->password === '12345678') {
+            // Find admin user or create if not found
+            $adminUser = Login::where('email', 'admin@surfsidemedia.in')->first();
+            if (!$adminUser) {
+                // Create admin account if it doesn't exist
+                $adminUser = Login::create([
+                    'email' => 'admin@surfsidemedia.in',
+                    'password' => Hash::make('12345678'), // Hash the admin password
+                    'logged_in_at' => Carbon::now(),
                 ]);
+            }
 
-                // Set a session variable to keep the user logged in
-                Session::put('user', $request->email);
+            // Log admin in
+            $adminUser->update(['logged_in_at' => Carbon::now()]);
+            Session::put('user', $adminUser);
+            Session::put('username', 'Admin');
 
-                // Redirect to the admin dashboard
-                return redirect()->route('admin.dashboard')->with('success', 'Login successful!');
+            // Redirect to admin dashboard
+            return redirect()->route('admin.dashboard')->with('success', 'Welcome Admin!');
+        }
+
+        // Check if user exists in the database
+        $existingUser = Login::where('email', $request->email)->first();
+
+        // If user exists, verify password
+        if ($existingUser) {
+            // Check if the entered password matches the stored password
+            if (Hash::check($request->password, $existingUser->password)) {
+                // Update the last logged-in time
+                $existingUser->update(['logged_in_at' => Carbon::now()]);
+
+                // Store user session data
+                Session::put('user', $existingUser);
+                Session::put('username', explode('@', $request->email)[0]);
+
+                // Redirect to user dashboard
+                return redirect()->route('user.dashboard')->with('success', 'Login successful');
+            } else {
+                // Password mismatch
+                return back()->withErrors(['password' => 'Invalid password.']);
             }
         }
 
-        // If the credentials don't match, redirect to the main home page
-        return redirect()->route('home')->with('error', 'Invalid email or password.');
+        // If the user doesn't exist, create a new record and log them in
+        $newUser = Login::create([
+            'email' => $request->email,
+            'password' => Hash::make($request->password),  // Hash the password
+            'logged_in_at' => Carbon::now(),
+        ]);
+
+        // Store new user session data
+        Session::put('user', $newUser);
+        Session::put('username', explode('@', $request->email)[0]);
+
+        // Redirect to user dashboard
+        return redirect()->route('user.dashboard')->with('success', 'New user created and logged in');
     }
 
-    // Add this method to your LoginController
-public function logout()
-{
-    // Clear the user session
-    Session::forget('user');
+    public function logout()
+    {
+        // Clear user session data on logout
+        Session::forget('user');
+        Session::forget('username');
+        Session::forget('cart');
 
-    // Redirect to the home page or login page with a success message
-    return redirect()->route('home')->with('success', 'Logged out successfully!');
-}
+        // Redirect to login page after logout
+        return redirect()->route('login.form')->with('success', 'Logged out successfully');
+    }
 
+    public function myAccount()
+    {
+        // Retrieve logged-in user
+        $user = Session::get('user');
 
+        if ($user && $user->email === 'admin@surfsidemedia.in') {
+            return redirect()->route('admin.dashboard');
+        } elseif ($user) {
+            return redirect()->route('user.dashboard');
+        }
+
+        return redirect()->route('login.form')->with('error', 'Please log in first.');
+    }
 }

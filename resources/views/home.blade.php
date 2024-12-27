@@ -48,16 +48,42 @@
 
     <div class="col-md-9">
         <div class="horizontal-boxes">
-            @foreach (['box1', 'box2', 'box3', 'box4'] as $box)
-                <div class="box" style="position: relative;">
-                    <div class="box-slideshow">
-                        <img src="{{ asset("assets/images/{$box}.jpg") }}" class="active" alt="Box Image">
-                        <img src="{{ asset("assets/images/{$box}-2.jpg") }}" alt="Box Image">
-                    </div>
-                    <div class="box-title">Product Name</div>
-                    <div class="add-to-cart-btn">Add to Cart</div>
+            <!-- Hot Deals Section with Specific Names Below Each Image -->
+            <div class="box" style="position: relative;">
+                <div class="box-slideshow">
+                    <img src="{{ asset('assets/images/box1.jpg') }}" class="active" alt="Cropped Faux Leather Jacket">
+                    <img src="{{ asset('assets/images/box1-2.jpg') }}" alt="Cropped Faux Leather Jacket">
                 </div>
-            @endforeach
+                <div class="box-title">Cropped Faux Leather Jacket</div>
+                <div class="add-to-cart-btn">Add to Cart</div>
+            </div>
+
+            <div class="box" style="position: relative;">
+                <div class="box-slideshow">
+                    <img src="{{ asset('assets/images/box2.jpg') }}" class="active" alt="Classic Denim Jacket">
+                    <img src="{{ asset('assets/images/box2-2.jpg') }}" alt="Classic Denim Jacket">
+                </div>
+                <div class="box-title">Classic Denim Jacket</div>
+                <div class="add-to-cart-btn">Add to Cart</div>
+            </div>
+
+            <div class="box" style="position: relative;">
+                <div class="box-slideshow">
+                    <img src="{{ asset('assets/images/box3.jpg') }}" class="active" alt="Stylish Blazer">
+                    <img src="{{ asset('assets/images/box3-2.jpg') }}" alt="Stylish Blazer">
+                </div>
+                <div class="box-title">Stylish Blazer</div>
+                <div class="add-to-cart-btn">Add to Cart</div>
+            </div>
+
+            <div class="box" style="position: relative;">
+                <div class="box-slideshow">
+                    <img src="{{ asset('assets/images/box4.jpg') }}" class="active" alt="Elegant Overcoat">
+                    <img src="{{ asset('assets/images/box4-2.jpg') }}" alt="Elegant Overcoat">
+                </div>
+                <div class="box-title">Elegant Overcoat</div>
+                <div class="add-to-cart-btn">Add to Cart</div>
+            </div>
         </div>
     </div>
 </div>
@@ -102,4 +128,23 @@
 </div>
 
 <h1 class="more">LOAD MORE</h1>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const swiper = new Swiper('.swiper-container', {
+            slidesPerView: 4, // Number of slides visible at the same time
+            spaceBetween: 25, // Space between slides in pixels
+            loop: true, // Enable infinite scrolling
+            navigation: {
+                nextEl: '.arrow-right',
+                prevEl: '.arrow-left',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+    });
+</script>
+
 @endsection

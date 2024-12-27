@@ -16,10 +16,9 @@ class Brand extends Model
         'brand_image',
     ];
 
-    // Optional: You can define relationships here if needed in the future
-    // For example, if you want to define a relationship to products:
-    // public function products()
-    // {
-    //     return $this->hasMany(Product::class);
-    // }
-}
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+}    

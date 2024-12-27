@@ -57,7 +57,7 @@
 
             <!-- Optional links for login -->
             <div class="mt-3 text-center">
-                <a href="{{ route('login') }}">Already have an account? Login</a>
+                <a href="{{ route('login.form') }}">Already have an account? Login</a>
             </div>
         </form>
     </div>

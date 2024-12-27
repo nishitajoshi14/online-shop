@@ -98,4 +98,37 @@ class CategoryController extends Controller
 
         return redirect()->route('categories.index')->with('status', 'Category deleted successfully!');
     }
+
+    // In CheckoutController.php
+public function placeOrder(Request $request)
+{
+    // Validate and create order data
+    $order = Order::create([
+        'fullName' => $request->input('fullName'),
+        'phoneNumber' => $request->input('phoneNumber'),
+        'pincode' => $request->input('pincode'),
+        'state' => $request->input('state'),
+        'city' => $request->input('city'),
+        'address1' => $request->input('address1'),
+        'landmark' => $request->input('landmark'),
+        'total' => $request->input('total'),
+        'order_status' => 'pending',
+    ]);
+
+    // Assuming $request->input('products') is an array of products with quantities
+    $products = $request->input('products'); // [product_id => quantity]
+
+    foreach ($products as $productId => $quantity) {
+        $product = Product::find($productId);
+        if ($product) {
+            $order->products()->attach($productId, [
+                'quantity' => $quantity,
+                'price' => $product->price,
+            ]);
+        }
+    }
+
+    return redirect()->route('user.orders')->with('success', 'Order placed successfully!');
+}
+
 }

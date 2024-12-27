@@ -9,15 +9,14 @@ class Login extends Model
 {
     use HasFactory;
 
-    // Specify the fillable attributes
+    protected $table = 'logins';
+
     protected $fillable = [
         'email',
+        'password',
         'logged_in_at',
+        'verified_at', // Include this if using email verification
     ];
 
-    // Query scope to find logins by email
-    public function scopeByEmail($query, $email)
-    {
-        return $query->where('email', $email);
-    }
+    protected $dates = ['logged_in_at', 'verified_at']; // Parse these as dates
 }

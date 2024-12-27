@@ -1,0 +1,34 @@
+/* Custom styles for the dashboard */
+#sidebar {
+    min-height: 100vh;
+    border-right: 1px solid #ddd;
+    padding-left: 0%;
+    
+}
+#sidebar .nav-link {
+    color: #333;
+}
+#sidebar .nav-link.active {
+    background-color: #ff9900;
+    color: white;
+}
+
+
+.card {
+    box-shadow: 0px 4px 8px rgba(212, 5, 5, 0.1);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-title {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* Disables the card hover effect */
+.no-hover:hover {
+    box-shadow: none !important;
+}

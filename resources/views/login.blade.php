@@ -39,7 +39,7 @@
 
             <!-- Optional links for registration or password reset -->
             <div class="mt-3 text-center">
-                <a href="#">Forgot Password?</a> |
+                <a href="{{ route('password.forgot') }}">Forgot Password?</a> |
                 <a href="{{ route('register') }}">Register</a>
             </div>
         </form>

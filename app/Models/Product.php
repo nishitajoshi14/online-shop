@@ -32,7 +32,6 @@ class Product extends Model
         return $this->hasMany(GalleryImage::class);
     }
 
-    // Relationship with Category
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -44,5 +43,17 @@ class Product extends Model
         return $this->belongsTo(Brand::class);
     }
 
+    public function orders()
+{
+    return $this->belongsToMany(Order::class, 'order_product')
+                ->withPivot('quantity', 'price')
+                ->withTimestamps();
+}
+
+
+public function carts()
+{
+    return $this->hasMany(Cart::class);
+}
     
 }

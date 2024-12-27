@@ -14,4 +14,9 @@ class Category extends Model
         'slug',
         'category_image', // Updated field for the image path
     ];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

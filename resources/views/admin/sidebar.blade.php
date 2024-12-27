@@ -7,7 +7,8 @@
 
         <!-- Sidebar Menu -->
         <h5 class="sidebar-heading">
-            <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
+            <i class="fas fa-tachometer-alt mr-2"></i> 
+            <a href="{{ route('admin.dashboard') }}" class="sidebar-link">Dashboard</a>
         </h5>
         
         <ul class="nav flex-column">
@@ -19,12 +20,12 @@
                 </a>
                 <ul class="nav flex-column ml-3" id="products-submenu" style="display: none;">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.products.create')}}">
+                        <a class="nav-link" href="{{ route('admin.products.create') }}">
                             <i class="fas fa-plus mr-2"></i> Add Product
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.products.index')}}">
+                        <a class="nav-link" href="{{ route('admin.products.index') }}">
                             <i class="fas fa-box-open mr-2"></i> Products
                         </a>
                     </li>
@@ -39,12 +40,12 @@
                 </a>
                 <ul class="nav flex-column ml-3" id="brand-submenu" style="display: none;">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('brands.create')}}">
+                        <a class="nav-link" href="{{ route('brands.create') }}">
                             <i class="fas fa-plus mr-2"></i> New Brand
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('brands.index')}}">
+                        <a class="nav-link" href="{{ route('brands.index') }}">
                             <i class="fas fa-tags mr-2"></i> Brands
                         </a>
                     </li>
@@ -59,12 +60,12 @@
                 </a>
                 <ul class="nav flex-column ml-3" id="category-submenu" style="display: none;">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('categories.create')}}">
+                        <a class="nav-link" href="{{ route('categories.create') }}">
                             <i class="fas fa-plus mr-2"></i> New Category
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('categories.index')}}">
+                        <a class="nav-link" href="{{ route('categories.index') }}">
                             <i class="fas fa-th-list mr-2"></i> Categories
                         </a>
                     </li>
@@ -79,7 +80,7 @@
                 </a>
                 <ul class="nav flex-column ml-3" id="order-submenu" style="display: none;">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('orders.index') }}">
                             <i class="fas fa-box mr-2"></i> Orders
                         </a>
                     </li>
@@ -91,10 +92,37 @@
                 </ul>
             </li>
 
+            <!-- Coupons Menu with Arrow -->
+            <li class="nav-item">
+                <a class="nav-link sidebar-link" href="javascript:void(0);" id="coupons-toggle">
+                    <i class="fas fa-gift mr-2"></i> Coupons
+                    <i class="fas fa-chevron-up float-right" id="coupons-arrow" style="font-size: 10px;"></i>
+                </a>
+                <ul class="nav flex-column ml-3" id="coupons-submenu" style="display: none;">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('coupons.create') }}">
+                            <i class="fas fa-plus mr-2"></i> Add Coupons
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('coupons.index') }}">
+                            <i class="fas fa-ticket-alt mr-2"></i> Coupons
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- Users Menu -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('users.index') }}" style="color: rgb(10, 10, 10); font-weight: bold;">
+                    <i class="fas fa-users mr-2"></i> Users
+                </a>
+            </li>
+
             <!-- Logout -->
             <li class="nav-item">
                 <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                    @csrf <!-- Include CSRF token for security -->
+                    @csrf
                     <button type="submit" class="nav-link sidebar-link" style="border: none; background: none; padding: 0;">
                         <i class="fas fa-sign-out-alt mr-2"></i> Logout
                     </button>
@@ -148,5 +176,10 @@
 
     document.getElementById('order-toggle').addEventListener('click', function() {
         toggleMenu('order-submenu', 'order-arrow');
+    });
+
+    // New event listener for Coupons menu
+    document.getElementById('coupons-toggle').addEventListener('click', function() {
+        toggleMenu('coupons-submenu', 'coupons-arrow');
     });
 </script>
